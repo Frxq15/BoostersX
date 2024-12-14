@@ -1,0 +1,16 @@
+boosts:
+  edprison:
+    booster1:
+      name: '&eEnchant Booster &7(x1.5)'
+      multiplier:
+        boost: 1.5
+        enchants:
+          - 'tokens'
+          - 'gems'
+      lore:
+        - 'example lore'
+        - 'multiplier: x1.5'
+      activation_message:
+        - 'ye u activated this booster gg'
+      deactivated_message:
+        - 'booster ended gg'

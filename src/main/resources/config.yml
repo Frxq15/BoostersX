@@ -1,0 +1,13 @@
+storage-type: 'mysql' #you can use mysql or yml
+
+database:
+  mysql:
+    host: ""
+    port: 3306
+    database: ""
+    username: ""
+    password: ""
+
+
+MESSAGES:
+  NO_PERMISSION: '&cYou dont have permission to perform this command.'

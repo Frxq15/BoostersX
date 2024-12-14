@@ -1,0 +1,4 @@
+name: BoostersX
+version: '${project.version}'
+main: me.frxq15.boostersx.BoostersX
+api-version: '1.19'
