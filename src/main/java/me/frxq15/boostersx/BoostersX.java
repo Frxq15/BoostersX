@@ -1,11 +1,13 @@
 package me.frxq15.boostersx;
 
+import me.frxq15.boostersx.datafactory.sql.SQLManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class BoostersX extends JavaPlugin {
     public static BoostersX instance;
+    private SQLManager sqlManager;
 
     @Override
     public void onEnable() {
@@ -28,6 +30,10 @@ public final class BoostersX extends JavaPlugin {
         return ChatColor.translateAlternateColorCodes('&', message);
     }
     public void registry() {
-
+        saveDefaultConfig();
+        sqlManager = new SQLManager(this);
+    }
+    public SQLManager getSQLManager() {
+        return sqlManager;
     }
 }
