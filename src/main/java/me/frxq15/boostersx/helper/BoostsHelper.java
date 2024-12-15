@@ -3,18 +3,21 @@ package me.frxq15.boostersx.helper;
 import me.frxq15.boostersx.BoostersX;
 import me.frxq15.boostersx.object.Booster;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
+import me.frxq15.boostersx.object.PlayerBoost;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
+import org.bukkit.entity.Player;
 
 public class BoostsHelper {
     private final BoostersX plugin;
     private List<Booster> boosters = new ArrayList<>();
+    private final Map<UUID, List<PlayerBoost>> activeBoosts = new ConcurrentHashMap<>();
 
     public BoostsHelper(BoostersX plugin) {
         this.plugin = plugin;
@@ -67,6 +70,62 @@ public class BoostsHelper {
     }
     public void reloadCache() {
         cacheAllBoosters();
+    }
+    public void addPlayerBoost(UUID playerUUID, PlayerBoost boost) {
+        activeBoosts.computeIfAbsent(playerUUID, k -> new ArrayList<>()).add(boost);
+    }
+    public void removePlayerBoost(UUID playerUUID, PlayerBoost boost) {
+        List<PlayerBoost> boosts = activeBoosts.get(playerUUID);
+        if (boosts != null) {
+            boosts.remove(boost);
+            if (boosts.isEmpty()) {
+                activeBoosts.remove(playerUUID);
+            }
+        }
+    }
+
+    public List<PlayerBoost> getActiveBoosts(UUID playerUUID) {
+        List<PlayerBoost> boosts = activeBoosts.get(playerUUID);
+        if (boosts != null) {
+            boosts.removeIf(PlayerBoost::isExpired);
+            if (boosts.isEmpty()) {
+                activeBoosts.remove(playerUUID);
+            }
+        }
+        return boosts != null ? boosts : Collections.emptyList();
+    }
+
+    private void startExpiryCheckTask() {
+        Bukkit.getScheduler().runTaskTimer(plugin, () -> {
+            for (UUID playerUUID : new HashSet<>(activeBoosts.keySet())) {
+                List<PlayerBoost> boosts = activeBoosts.get(playerUUID);
+                if (boosts != null) {
+                    boosts.removeIf(boost -> {
+                        boolean expired = boost.isExpired();
+                        if (expired) {
+                            notifyPlayerBoostExpired(playerUUID, boost);
+                        }
+                        return expired;
+                    });
+                    if (boosts.isEmpty()) {
+                        activeBoosts.remove(playerUUID);
+                    }
+                }
+            }
+        }, 0L, 20 * 60L); // Runs every 60 seconds
+    }
+
+    // Notify player when a boost expires
+    private void notifyPlayerBoostExpired(UUID playerUUID, PlayerBoost boost) {
+        Player player = Bukkit.getPlayer(playerUUID);
+        if (player != null && player.isOnline()) {
+            player.sendMessage("Your boost " + boost.getBooster().getID() + " has expired.");
+        }
+    }
+
+    // Clear all active boosts (e.g., on reset or reload)
+    public void clearAllActiveBoosts() {
+        activeBoosts.clear();
     }
 }
 
