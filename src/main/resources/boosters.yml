@@ -1,6 +1,7 @@
 boosts:
   edprison:
     booster1:
+      plugin: 'edprison'
       name: '&eEnchant Booster &7(x1.5)'
       multiplier:
         boost: 1.5

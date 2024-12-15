@@ -8,11 +8,13 @@ public class Booster {
     private final String id;
     private final List<String> currencies;
     private final double multiplier;
+    private final String plugin;
 
-    public Booster(String id, double multiplier, List<String> currencies) {
+    public Booster(String id, double multiplier, List<String> currencies, String plugin) {
         this.id = id;
         this.multiplier = multiplier;
         this.currencies = currencies;
+        this.plugin = plugin;
     }
 
     public String getID() {
@@ -21,6 +23,9 @@ public class Booster {
 
     public double getMultiplier() {
         return multiplier;
+    }
+    public String getPluginBoost() {
+        return plugin;
     }
 
     public List<String> getCurrencies() {
