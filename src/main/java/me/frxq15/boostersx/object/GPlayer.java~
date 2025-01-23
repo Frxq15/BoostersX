@@ -1,20 +1,16 @@
 package me.frxq15.boostersx.object;
 
-import me.frxq15.boostersx.BoostersX;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class GPlayer {
-    private final BoostersX plugin;
     private final UUID uuid;
     private List<PlayerBoost> boosters = new ArrayList<>();
     public final static Map<UUID, GPlayer> players = new HashMap<>();
 
     private String name;
 
-    public GPlayer(BoostersX plugin, UUID uuid, String name) {
-        this.plugin = plugin;
+    public GPlayer(UUID uuid) {
         this.uuid = uuid;
         players.put(uuid, this);
     }

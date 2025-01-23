@@ -1,17 +1,19 @@
 boosts:
-  edprison:
-    booster1:
-      plugin: 'edprison'
-      name: '&eEnchant Booster &7(x1.5)'
-      multiplier:
-        boost: 1.5
-        enchants:
-          - 'tokens'
-          - 'gems'
-      lore:
-        - 'example lore'
-        - 'multiplier: x1.5'
-      activation_message:
-        - 'ye u activated this booster gg'
-      deactivated_message:
-        - 'booster ended gg'
+  booster1:
+    name: '&eEnchant Booster &7(x1.5)'
+    multiplier:
+      boost: 1.5
+      enchants:
+        - 'jackhammer'
+        - 'tokenfinder'
+      currencies:
+        - 'tokens'
+        - 'gems'
+    lore:
+      - 'example lore'
+      - 'multiplier: x1.5'
+      - 'duration: %duration%'
+    activation_message:
+      - 'ye u activated this booster gg'
+    deactivated_message:
+      - 'your booster ended gg'

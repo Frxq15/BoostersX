@@ -11,18 +11,14 @@ public class Booster {
     private final List<String> enchants;
     private final List<String> activationMessage;
     private final List<String> deactivatedMessage;
-    private final String displayName;
-    private final List<String> lore;
 
-    public Booster(String id, double multiplier, List<String> currencies, List<String> enchants, List<String> activationMessage, List<String> deactivatedMessage, String displayName, List<String> lore) {
+    public Booster(String id, double multiplier, List<String> currencies, List<String> enchants, List<String> activationMessage, List<String> deactivatedMessage) {
         this.id = id;
         this.multiplier = multiplier;
         this.currencies = currencies;
         this.enchants = enchants;
         this.activationMessage = activationMessage;
         this.deactivatedMessage = deactivatedMessage;
-        this.displayName = displayName;
-        this.lore = lore;
     }
 
     public String getID() {
@@ -44,23 +40,8 @@ public class Booster {
     public List<String> getDeactivatedMessage() {
         return deactivatedMessage;
     }
-    public String getDisplayName() {
-        return displayName;
-    }
-    public List<String> getLore() {
-        return lore;
-    }
     @Override
     public String toString() {
-        return "Booster{" +
-                "id='" + id + '\'' +
-                ", multiplier=" + multiplier +
-                ", currencies=" + currencies +
-                ", enchants=" + enchants +
-                ", activationMessage=" + activationMessage +
-                ", deactivatedMessage=" + deactivatedMessage +
-                ", displayName='" + displayName + '\'' +
-                ", lore=" + lore +
-                '}';
+        return "Booster: " + id + " Multiplier: " + multiplier + " Currencies: " + currencies;
     }
 }

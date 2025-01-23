@@ -59,9 +59,6 @@ public class BoostsHelper {
     public void reloadCache() {
         cacheAllBoosters();
     }
-    public Booster getBooster(String id) {
-        return boosters.stream().filter(booster -> booster.getID().equals(id)).findFirst().orElse(null);
-    }
 
     private void startExpiryCheckTask() {
         Bukkit.getScheduler().runTaskTimer(plugin, () -> {

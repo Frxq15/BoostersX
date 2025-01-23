@@ -1,6 +1,5 @@
 package me.frxq15.boostersx;
 
-import me.frxq15.boostersx.command.CommandHandler;
 import me.frxq15.boostersx.datafactory.sql.SQLManager;
 import me.frxq15.boostersx.helper.BoostsHelper;
 import me.frxq15.boostersx.manager.FileManager;
@@ -15,7 +14,6 @@ public final class BoostersX extends JavaPlugin {
     private FileManager fileManager;
     private LocaleManager localeManager;
     private BoostsHelper boostsHelper;
-    private CommandHandler commandHandler;
 
     @Override
     public void onEnable() {
@@ -45,8 +43,6 @@ public final class BoostersX extends JavaPlugin {
         sqlManager = new SQLManager(this);
         boostsHelper = new BoostsHelper(this);
         boostsHelper.cacheAllBoosters();
-        commandHandler = new CommandHandler(this);
-        commandHandler.load();
     }
     public SQLManager getSQLManager() {
         return sqlManager;
