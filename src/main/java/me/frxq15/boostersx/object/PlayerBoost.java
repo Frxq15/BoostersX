@@ -5,12 +5,13 @@ import java.time.Instant;
 public class PlayerBoost {
     private final Booster booster;
     private final long duration;
-    private final Instant startTime;
+    private Instant startTime;
+    private boolean isActive;
 
     public PlayerBoost(Booster booster, long duration) {
         this.booster = booster;
         this.duration = duration;
-        this.startTime = Instant.now();
+        this.isActive = false;
     }
 
     public Booster getBooster() {
@@ -19,6 +20,13 @@ public class PlayerBoost {
 
     public long getDuration() {
         return duration;
+    }
+    public void startTimer() {
+        this.startTime = Instant.now();
+        this.isActive = true;
+    }
+    public boolean isActive() {
+        return isActive;
     }
 
     public Instant getStartTime() {

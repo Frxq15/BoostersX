@@ -18,7 +18,7 @@ public interface DataFactory {
     // Player methods
     void updatePlayerName(UUID uuid, String name);
     void initializePlayerData(GPlayer gPlayer);
-    void getGPlayerData(UUID uuid);
+    GPlayer getGPlayerData(UUID uuid);
     void updateGPlayerData(GPlayer gPlayer);
     boolean doesPlayerExist(UUID uuid);
     boolean isPlayerDataLoaded(UUID uuid);
@@ -29,4 +29,7 @@ public interface DataFactory {
     // Booster methods
     List<Booster> getBoosters(UUID uuid);
     List<PlayerBoost> getActiveBoosts(UUID uuid);
+    String serializeBoosts(List<PlayerBoost> boosts);
+    void saveBoosts(GPlayer gPlayer);
+    List<PlayerBoost> loadBoosts(GPlayer gPlayer);
 }
