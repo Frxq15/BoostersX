@@ -18,7 +18,7 @@ public class giveCommand extends SubCommand {
     private final BoostersX plugin;
 
     public giveCommand(BoostersX plugin) {
-        super("info", "boostersx.command.admin.give", "/abooster give <player> <id> <duration>", Arrays.asList("add"));
+        super("give", "boostersx.command.admin.give", "&c/abooster give <player> <id> <duration>", Arrays.asList("add"));
         this.plugin = plugin;
     }
 
@@ -39,8 +39,11 @@ public class giveCommand extends SubCommand {
 
             Booster booster = plugin.getBoostsHelper().getBooster(targetBooster);
             PlayerBoost boost = new PlayerBoost(booster, 120000L); //default as 2 mins for testing
-
+            plugin.getDataFactory().getFactory().getGPlayerData(target.getUniqueId()).addBooster(boost);
+            plugin.getLocaleManager().sendRawMessage(s, "&cAdded booster " + targetBooster + " to " + target.getName());
+            return;
         }
+        plugin.getLocaleManager().sendRawMessage(s, getUsage());
     }
 
     @Override

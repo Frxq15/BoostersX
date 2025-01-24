@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -40,8 +41,7 @@ public class SQLGPlayerFactory implements DataFactory {
             e.printStackTrace();
             return false;
         }
-
-        //savingTask = startSavingTask();
+        savingTask = startSavingTask();
         return true;
     }
 
@@ -54,9 +54,8 @@ public class SQLGPlayerFactory implements DataFactory {
             plugin.log("Database: Can't establish a database connection!");
             return;
         }
-
         for(GPlayer gPlayer : players.values()) {
-            //updateGPlayerData(gPlayer);
+            updateGPlayerData(gPlayer);
         }
         players.clear();
     }
@@ -124,8 +123,10 @@ public class SQLGPlayerFactory implements DataFactory {
                 String name = result.getString("name");
                 String boosters = result.getString("boosters");
                 String activeBoosters = result.getString("active_boosters");
+                List<PlayerBoost> playerBoosts = boosters == null ? new ArrayList<>() : deserializeBoosters(result.getString("boosters"));
+                List<PlayerBoost> activeBoosts = activeBoosters == null ? new ArrayList<>() : deserializeActiveBoosters(result.getString("active_boosters"));
 
-                gPlayer = new GPlayer(plugin, uuidDB, name);
+                gPlayer = new GPlayer(plugin, uuidDB, name, playerBoosts, activeBoosts);
 
                 if (!players.containsKey(gPlayer.getUUID()))
                     players.put(gPlayer.getUUID(), gPlayer);
@@ -141,7 +142,32 @@ public class SQLGPlayerFactory implements DataFactory {
 
     @Override
     public void updateGPlayerData(GPlayer gPlayer) {
+        if (!sqlHandler.isConnected() && !sqlHandler.connect()) {
+            plugin.log("Database: Can't establish a database connection!");
+            return;
+        }
 
+        // Insert if not exists, update if exists
+        final String UPDATE_DATA = "INSERT INTO `" + PLAYERS_TABLE + "` (uuid, name, boosters, active_boosters) VALUES (?, ?, ?, ?) ON DUPLICATE KEY " +
+                "UPDATE name = ?, boosters = ?, active_boosters = ?;";
+
+        try (PreparedStatement statement = sqlHandler.getConnection().prepareStatement(UPDATE_DATA)) {
+            int i = 1;
+
+            // Setting insert variables
+            statement.setString(i++, (gPlayer.getUUID() == null ? null : gPlayer.getUUID().toString()));
+            statement.setString(i++, gPlayer.getName());
+            statement.setString(i++, (serializeBoosters(gPlayer.getBoosters()) == null ? "" : serializeBoosters(gPlayer.getBoosters())));
+            statement.setString(i++, (serializeActiveBoosters(gPlayer.getActiveBoosters()) == null ? "" : serializeActiveBoosters(gPlayer.getActiveBoosters())));
+
+            // Setting update variables
+            statement.setString(i++, gPlayer.getName());
+            statement.setString(i++, (serializeBoosters(gPlayer.getBoosters()) == null ? "" : serializeBoosters(gPlayer.getBoosters())));
+            statement.setString(i, (serializeActiveBoosters(gPlayer.getActiveBoosters()) == null ? "" : serializeActiveBoosters(gPlayer.getActiveBoosters())));
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -172,12 +198,14 @@ public class SQLGPlayerFactory implements DataFactory {
 
     @Override
     public void loadPlayerData(UUID uuid) {
-
+        getGPlayerData(uuid);
     }
 
     @Override
     public void unloadPlayerData(UUID uuid) {
-
+        if (players.get(uuid) != null) {
+            updateGPlayerData(players.remove(uuid));
+        }
     }
 
     @Override
@@ -186,17 +214,37 @@ public class SQLGPlayerFactory implements DataFactory {
     }
 
     @Override
-    public List<Booster> getBoosters(UUID uuid) {
-        return List.of();
+    public void unloadPlayerDataAsync(UUID uuid) {
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> unloadPlayerData(uuid));
     }
 
     @Override
-    public List<PlayerBoost> getActiveBoosts(UUID uuid) {
-        return List.of();
+    public List<PlayerBoost> deserializeActiveBoosters(String boostsString) {
+        List<PlayerBoost> loadedBoosts = new ArrayList<>();
+
+        if (boostsString != null && !boostsString.isEmpty()) {
+            // Deserialize "id duration starttime:id duration starttime" into a list of PlayerBoosts
+            loadedBoosts = Arrays.stream(boostsString.split(":"))
+                    .map(entry -> {
+                        String[] parts = entry.split(" ");
+                        String id = parts[0];
+                        long duration = Long.parseLong(parts[1]);
+                        long startTime = Long.parseLong(parts[2]);
+
+                        Booster booster = plugin.getBoostsHelper().getBooster(id);
+                        PlayerBoost playerBoost = new PlayerBoost(booster, duration);
+                        playerBoost.setStartTime(Instant.ofEpochMilli(startTime));
+
+                        return booster != null ? playerBoost : null;
+                    })
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toList());
+        }
+        return loadedBoosts;
     }
 
     @Override
-    public String serializeBoosts(List<PlayerBoost> boosts) {
+    public String serializeBoosters(List<PlayerBoost> boosts) {
         if (boosts == null || boosts.isEmpty()) {
             return "";
         }
@@ -204,38 +252,34 @@ public class SQLGPlayerFactory implements DataFactory {
                 .map(boost -> boost.getBooster().getID() + " " + boost.getDuration())
                 .collect(Collectors.joining(":"));
     }
-    public void saveBoosts(GPlayer gPlayer) {
-        List<PlayerBoost> playerBoosts = gPlayer.getBoosters();
-
-        // Serialize boosts as "type id duration:id duration etc.."
-        String boostsString = playerBoosts.stream()
-                .map(boost -> boost.getBooster().getID() + " " + boost.getDuration())
+    @Override
+    public String serializeActiveBoosters(List<PlayerBoost> boosts) {
+        if (boosts == null || boosts.isEmpty()) {
+            return "";
+        }
+        return boosts.stream()
+                .map(boost -> boost.getBooster().getID() + " " + boost.getDuration() + " " + boost.getStartTime())
                 .collect(Collectors.joining(":"));
+    }
+    @Override
+    public void saveBoosters(GPlayer gPlayer) {
+        List<PlayerBoost> playerBoosts = gPlayer.getBoosters();
 
         try (PreparedStatement statement = sqlHandler.getConnection().prepareStatement(
                 "UPDATE `" + PLAYERS_TABLE + "` SET boosters=? WHERE uuid=?")) {
-            statement.setString(1, boostsString);
+            statement.setString(1, serializeBoosters(playerBoosts));
             statement.setString(2, gPlayer.getUUID().toString());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
-    public List<PlayerBoost> loadBoosts(GPlayer gPlayer) {
+    @Override
+    public List<PlayerBoost> deserializeBoosters(String boostsString) {
         List<PlayerBoost> loadedBoosts = new ArrayList<>();
 
-        try (PreparedStatement statement = sqlHandler.getConnection().prepareStatement(
-                "SELECT boosters FROM `" + PLAYERS_TABLE + "` WHERE uuid=?")) {
-            statement.setString(1, gPlayer.getUUID().toString());
-            ResultSet result = statement.executeQuery();
-
-            if (result.next()) {
-                String boostsString = result.getString("boosters");
-                result.close();
-
                 if (boostsString != null && !boostsString.isEmpty()) {
-                    // Deserialize "type level:type level" into a list of PlayerBoosts
+                    // Deserialize "id duration:id duration" into a list of PlayerBoosts
                     loadedBoosts = Arrays.stream(boostsString.split(":"))
                             .map(entry -> {
                                 String[] parts = entry.split(" ");
@@ -249,15 +293,14 @@ public class SQLGPlayerFactory implements DataFactory {
                             .filter(Objects::nonNull)
                             .collect(Collectors.toList());
                 }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return loadedBoosts;
+            return loadedBoosts;
     }
 
     @Override
     public int startSavingTask() {
-        return 0;
+        return Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, () -> {
+            for (GPlayer gPlayer : players.values())
+                updateGPlayerData(gPlayer);
+        }, 20L * 60L * 5, 20L * 60L * 5).getTaskId();
     }
 }

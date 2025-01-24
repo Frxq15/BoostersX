@@ -1,5 +1,5 @@
 name: BoostersX
-version: '${project.version}'
+version: '1.0-SNAPSHOT'
 main: me.frxq15.boostersx.BoostersX
 api-version: '1.18'
 author: 'frxq'

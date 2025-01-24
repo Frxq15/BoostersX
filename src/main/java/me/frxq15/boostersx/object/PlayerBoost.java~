@@ -21,17 +21,10 @@ public class PlayerBoost {
     public long getDuration() {
         return duration;
     }
-
     public void startTimer() {
         this.startTime = Instant.now();
         this.isActive = true;
     }
-
-    public void activate(Instant startTime) {
-        this.startTime = startTime != null ? startTime : Instant.now();
-        this.isActive = true;
-    }
-
     public boolean isActive() {
         return isActive;
     }
@@ -39,15 +32,11 @@ public class PlayerBoost {
     public Instant getStartTime() {
         return startTime;
     }
-
     public void setStartTime(Instant startTime) {
         this.startTime = startTime;
     }
 
     public boolean isExpired() {
-        if (!isActive || startTime == null) {
-            return false; // Inactive or not started
-        }
         return Instant.now().isAfter(startTime.plusSeconds(duration));
     }
 
@@ -57,9 +46,7 @@ public class PlayerBoost {
                 "booster=" + booster +
                 ", duration=" + duration +
                 ", startTime=" + startTime +
-                ", active=" + isActive +
                 ", expired=" + isExpired() +
                 '}';
     }
 }
-

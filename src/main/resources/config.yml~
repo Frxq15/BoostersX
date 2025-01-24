@@ -1,0 +1,17 @@
+storage-type: 'mysql' #you can use mysql or yml
+
+database:
+  mysql:
+    host: "na03-sql.pebblehost.com"
+    port: 3306
+    database: "customer_774404_root"
+    username: "customer_774404_root"
+    password: "ixjl2Jo2MVz.FipyNfQ@!zea"
+
+
+MESSAGES:
+  NO_PERMISSION: '&cYou dont have permission to perform this command.'
+  SUB_COMMAND_NOT_FOUND: '&cSub command not found.'
+  PLAYER_NOT_FOUND: '&cPlayer not found.'
+  BOOSTER_NOT_FOUND: '&cBooster not found.'
+

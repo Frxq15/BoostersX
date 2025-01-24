@@ -5,6 +5,7 @@ import me.frxq15.boostersx.BoostersX;
 import me.frxq15.boostersx.command.ParentCommand;
 import me.frxq15.boostersx.command.SubCommand;
 import me.frxq15.boostersx.command.subcommands.abooster.giveCommand;
+import me.frxq15.boostersx.command.subcommands.abooster.testCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
@@ -16,6 +17,7 @@ public class aboosterCommand extends ParentCommand {
     public aboosterCommand(BoostersX plugin) {
         super(plugin, "abooster", "boostersx.command.admin.abooster");
         register(new giveCommand(plugin));
+        register(new testCommand(plugin));
     }
 
     @Override

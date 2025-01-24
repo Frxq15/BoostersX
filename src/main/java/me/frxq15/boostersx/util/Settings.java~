@@ -27,14 +27,14 @@ public class Settings {
                     SQLGPlayerFactory.initialize();
                     plugin.log("Database: Successfully connected to database!");
                     Bukkit.getPluginManager().registerEvents(new SQLListeners(plugin), plugin);
-                    break;
                 }
                 plugin.log("Settings: Storage type MYSQL was specified but could not connect to database.");
+                break;
             case "yml":
                 this.storageType = StorageType.YML;
                 break;
             default:
-                plugin.log("Settings: An error occured while processing the storage type - using yml as default.");
+                plugin.log("Settings: Invalid storage type in config.yml! Valid options are 'mysql' or 'yml' - using yml as default.");
                 this.storageType = StorageType.YML;
         }
     }

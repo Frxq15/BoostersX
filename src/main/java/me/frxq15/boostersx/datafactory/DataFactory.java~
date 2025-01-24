@@ -25,7 +25,6 @@ public interface DataFactory {
     void loadPlayerData(UUID uuid);
     void unloadPlayerData(UUID uuid);
     Map<UUID, GPlayer> getPlayers();
-    void unloadPlayerDataAsync(UUID uuid);
 
     // Booster methods
     List<PlayerBoost> deserializeActiveBoosters(String boostsString);
