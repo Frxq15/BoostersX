@@ -5,13 +5,14 @@ import java.time.Instant;
 public class PlayerBoost {
     private final Booster booster;
     private final long duration;
-    private Instant startTime;
+    private long startTime;
     private boolean isActive;
 
     public PlayerBoost(Booster booster, long duration) {
         this.booster = booster;
         this.duration = duration;
         this.isActive = false;
+        this.startTime = -1;
     }
 
     public Booster getBooster() {
@@ -23,12 +24,12 @@ public class PlayerBoost {
     }
 
     public void startTimer() {
-        this.startTime = Instant.now();
+        this.startTime = System.currentTimeMillis();
         this.isActive = true;
     }
 
-    public void activate(Instant startTime) {
-        this.startTime = startTime != null ? startTime : Instant.now();
+    public void activate(Long startTime) {
+        this.startTime = (startTime != null) ? startTime : System.currentTimeMillis();
         this.isActive = true;
     }
 
@@ -36,19 +37,23 @@ public class PlayerBoost {
         return isActive;
     }
 
-    public Instant getStartTime() {
+    public long getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Instant startTime) {
+    public void setStartTime(long startTime) {
         this.startTime = startTime;
     }
 
     public boolean isExpired() {
-        if (!isActive || startTime == null) {
-            return false; // Inactive or not started
+        if (!isActive || startTime == -1) {
+            return false;
         }
-        return Instant.now().isAfter(startTime.plusSeconds(duration));
+        boolean expired = System.currentTimeMillis() > (startTime + duration);
+        if (expired) {
+            isActive = false;
+        }
+        return expired;
     }
 
     @Override
@@ -56,10 +61,12 @@ public class PlayerBoost {
         return "PlayerBoost{" +
                 "booster=" + booster +
                 ", duration=" + duration +
-                ", startTime=" + startTime +
+                ", startTime=" + (startTime == -1 ? "Not Started" : startTime) +
                 ", active=" + isActive +
                 ", expired=" + isExpired() +
                 '}';
     }
 }
+
+
 

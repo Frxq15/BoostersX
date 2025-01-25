@@ -32,6 +32,7 @@ public class SQLListeners implements Listener {
             }
 
             gPlayer = new GPlayer(plugin, uuid, name);
+            gPlayer.startExpiryCheckTask();
             plugin.getDataFactory().getFactory().updatePlayerName(uuid, name);
             plugin.getDataFactory().getFactory().initializePlayerData(gPlayer);
         } else {
@@ -42,6 +43,7 @@ public class SQLListeners implements Listener {
     public void onPlayerQuitEvent(PlayerQuitEvent event) {
         Player player = event.getPlayer();
         GPlayer gPlayer = plugin.getDataFactory().getFactory().getGPlayerData(player.getUniqueId());
+        gPlayer.stopExpiryCheckTask();
         plugin.getDataFactory().getFactory().unloadPlayerDataAsync(gPlayer.getUUID());
     }
 }

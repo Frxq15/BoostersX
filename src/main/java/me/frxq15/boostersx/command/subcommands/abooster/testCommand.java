@@ -12,6 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,12 +29,45 @@ public class testCommand extends SubCommand {
             Player player = (Player) s;
             GPlayer gPlayer = plugin.getDataFactory().getFactory().getGPlayerData(player.getUniqueId());
 
-            gPlayer.getBoosters().forEach(boost -> {
-                Bukkit.broadcastMessage("");
-                Bukkit.broadcastMessage(boost.toString());
-                Bukkit.broadcastMessage(boost.getBooster().toString());
-                Bukkit.broadcastMessage("");
-            });
+
+            if(args.length == 0) {
+                gPlayer.getBoosters().forEach(boost -> {
+                    Bukkit.broadcastMessage("");
+                    Bukkit.broadcastMessage("PLAYER BOOST");
+                    Bukkit.broadcastMessage(boost.toString());
+                    Bukkit.broadcastMessage("BOOST");
+                    Bukkit.broadcastMessage(boost.getBooster().toString());
+                    Bukkit.broadcastMessage("");
+                });
+                Bukkit.broadcastMessage("ACTIVE BOOSTERS");
+                gPlayer.getActiveBoosters().forEach(boost -> {
+                    Bukkit.broadcastMessage("");
+                    Bukkit.broadcastMessage("PLAYER BOOST");
+                    Bukkit.broadcastMessage(boost.toString());
+                    Bukkit.broadcastMessage("BOOST");
+                    Bukkit.broadcastMessage(boost.getBooster().toString());
+                    Bukkit.broadcastMessage("");
+                });
+                return;
+            }
+            String booster = args[0];
+            long duration = Long.parseLong(args[1]);
+            Booster boost = plugin.getBoostsHelper().getBooster(booster);
+            if(boost == null) {
+                player.sendMessage(plugin.colourize("&cBooster with id " + booster + " not found!"));
+                return;
+            }
+            PlayerBoost playerBoost = gPlayer.findFirstByIdAndDuration(booster, duration);
+            if(playerBoost == null) {
+                player.sendMessage(plugin.colourize("&cBooster not found!"));
+                return;
+            }
+            gPlayer.activateBooster(playerBoost);
+            player.sendMessage(plugin.colourize("&aActivated booster!"));
+            return;
+
+
+
 
     }
 

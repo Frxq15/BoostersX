@@ -38,7 +38,7 @@ public class giveCommand extends SubCommand {
             //validate duration later
 
             Booster booster = plugin.getBoostsHelper().getBooster(targetBooster);
-            PlayerBoost boost = new PlayerBoost(booster, 120000L); //default as 2 mins for testing
+            PlayerBoost boost = new PlayerBoost(booster, 120000); //default as 2 mins for testing
             plugin.getDataFactory().getFactory().getGPlayerData(target.getUniqueId()).addBooster(boost);
             plugin.getLocaleManager().sendRawMessage(s, "&cAdded booster " + targetBooster + " to " + target.getName());
             return;
