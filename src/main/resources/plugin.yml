@@ -8,3 +8,6 @@ commands:
   abooster:
     usage: '/abooster'
     description: 'Booster admin command'
+  booster:
+    usage: '/booster'
+    description: 'Booster command'

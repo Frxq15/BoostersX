@@ -13,8 +13,9 @@ public class Booster {
     private final List<String> deactivatedMessage;
     private final String displayName;
     private final List<String> lore;
+    private final List<String> tooltip;
 
-    public Booster(String id, double multiplier, List<String> currencies, List<String> enchants, List<String> activationMessage, List<String> deactivatedMessage, String displayName, List<String> lore) {
+    public Booster(String id, double multiplier, List<String> currencies, List<String> enchants, List<String> activationMessage, List<String> deactivatedMessage, String displayName, List<String> lore, List<String> tooltip) {
         this.id = id;
         this.multiplier = multiplier;
         this.currencies = currencies;
@@ -23,6 +24,7 @@ public class Booster {
         this.deactivatedMessage = deactivatedMessage;
         this.displayName = displayName;
         this.lore = lore;
+        this.tooltip = tooltip;
     }
 
     public String getID() {
@@ -49,6 +51,9 @@ public class Booster {
     }
     public List<String> getLore() {
         return lore;
+    }
+    public List<String> getTooltip() {
+        return tooltip;
     }
     @Override
     public String toString() {

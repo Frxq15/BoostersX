@@ -17,7 +17,6 @@ import org.bukkit.entity.Player;
 public class BoostsHelper {
     private final BoostersX plugin;
     private List<Booster> boosters = new ArrayList<>();
-    private final Map<UUID, List<PlayerBoost>> activeBoosts = new ConcurrentHashMap<>();
 
     public BoostsHelper(BoostersX plugin) {
         this.plugin = plugin;
@@ -41,8 +40,9 @@ public class BoostsHelper {
                     List<String> lore = config.getStringList(path + ".lore");
                     List<String> activationMessage = config.getStringList(path + ".activation_message");
                     List<String> deactivatedMessage = config.getStringList(path + ".deactivated_message");
+                    List<String> tooltip = config.getStringList(path + ".tooltip");
 
-                    Booster booster = new Booster(key, multiplier, currencies, enchants, activationMessage, deactivatedMessage, displayName, lore);
+                    Booster booster = new Booster(key, multiplier, currencies, enchants, activationMessage, deactivatedMessage, displayName, lore, tooltip);
                     cacheBooster(booster);
                 }
             }
@@ -63,34 +63,11 @@ public class BoostsHelper {
         return boosters.stream().filter(booster -> booster.getID().equals(id)).findFirst().orElse(null);
     }
 
-    private void startExpiryCheckTask() {
-        Bukkit.getScheduler().runTaskTimer(plugin, () -> {
-            for (UUID playerUUID : new HashSet<>(activeBoosts.keySet())) {
-                List<PlayerBoost> boosts = activeBoosts.get(playerUUID);
-                if (boosts != null) {
-                    boosts.removeIf(boost -> {
-                        boolean expired = boost.isExpired();
-                        if (expired) {
-                            notifyPlayerBoostExpired(playerUUID, boost);
-                        }
-                        return expired;
-                    });
-                    if (boosts.isEmpty()) {
-                        activeBoosts.remove(playerUUID);
-                    }
-                }
-            }
-        }, 0L, 20 * 60L);
-    }
-
     private void notifyPlayerBoostExpired(UUID playerUUID, PlayerBoost boost) {
         Player player = Bukkit.getPlayer(playerUUID);
         if (player != null && player.isOnline()) {
             player.sendMessage("Your boost " + boost.getBooster().getID() + " has expired.");
         }
-    }
-    public void clearAllActiveBoosts() {
-        activeBoosts.clear();
     }
 }
 

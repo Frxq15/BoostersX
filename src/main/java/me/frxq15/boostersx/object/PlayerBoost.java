@@ -1,5 +1,7 @@
 package me.frxq15.boostersx.object;
 
+import me.frxq15.boostersx.BoostersX;
+
 import java.time.Instant;
 
 public class PlayerBoost {
@@ -54,6 +56,16 @@ public class PlayerBoost {
             isActive = false;
         }
         return expired;
+    }
+    public String getTimeRemaining() {
+        if (!isActive || startTime == -1) {
+            return "Not Active";
+        }
+        long timeRemaining = startTime + duration - System.currentTimeMillis();
+        return BoostersX.getInstance().getTimeUtils().formatTimeRemaining(timeRemaining);
+    }
+    public String getDurationFormatted() {
+        return BoostersX.getInstance().getTimeUtils().formatDuration(duration);
     }
 
     @Override

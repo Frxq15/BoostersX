@@ -63,7 +63,7 @@ public class testCommand extends SubCommand {
                 return;
             }
             gPlayer.activateBooster(playerBoost);
-            player.sendMessage(plugin.colourize("&aActivated booster!"));
+            playerBoost.getBooster().getActivationMessage().forEach(message -> plugin.getLocaleManager().sendRawMessage(player, message));
             return;
 
 

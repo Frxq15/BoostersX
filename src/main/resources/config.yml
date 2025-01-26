@@ -14,4 +14,12 @@ MESSAGES:
   SUB_COMMAND_NOT_FOUND: '&cSub command not found.'
   PLAYER_NOT_FOUND: '&cPlayer not found.'
   BOOSTER_NOT_FOUND: '&cBooster not found.'
+  NO_ACTIVE_BOOSTERS: '&cYou have no active boosters :('
+  BOOSTERS:
+    ACTIVE_HEADER:
+      - ''
+      - '&a&lActive Boosters'
+    ACTIVE_FORMAT: '&a&l ➾ %booster%'
+    ACTIVE_FOOTER:
+      - ''
 

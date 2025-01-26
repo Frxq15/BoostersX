@@ -2,6 +2,7 @@ package me.frxq15.boostersx.command;
 
 import me.frxq15.boostersx.BoostersX;
 import me.frxq15.boostersx.command.commands.aboosterCommand;
+import me.frxq15.boostersx.command.commands.boosterCommand;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
@@ -17,6 +18,7 @@ public record CommandHandler(BoostersX plugin) {
 
     private void registerCommands() {
         registerCommand("abooster", new aboosterCommand(plugin));
+        registerCommand("booster", new boosterCommand(plugin));
     }
 
     private void registerCommand(@NotNull String name, @NotNull CommandExecutor commandExecutor) {

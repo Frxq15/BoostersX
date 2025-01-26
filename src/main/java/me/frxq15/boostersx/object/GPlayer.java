@@ -97,7 +97,7 @@ public class GPlayer {
                 PlayerBoost boost = iterator.next();
                 if (boost.isExpired()) {
                     Bukkit.getScheduler().runTask(plugin, () -> {
-                        getPlayer().sendMessage("Your boost " + boost.getBooster().getID() + " has expired.");
+                        boost.getBooster().getDeactivatedMessage().forEach(message -> plugin.getLocaleManager().sendRawMessage(getPlayer(), message));
                     });
                     iterator.remove();
                 }

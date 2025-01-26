@@ -6,7 +6,9 @@ import me.frxq15.boostersx.datafactory.sql.SQLManager;
 import me.frxq15.boostersx.helper.BoostsHelper;
 import me.frxq15.boostersx.manager.FileManager;
 import me.frxq15.boostersx.manager.LocaleManager;
+import me.frxq15.boostersx.util.PlayerUtils;
 import me.frxq15.boostersx.util.Settings;
+import me.frxq15.boostersx.util.TimeUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -20,6 +22,8 @@ public final class BoostersX extends JavaPlugin {
     private CommandHandler commandHandler;
     private Settings settings;
     private DataFactoryHandler dataFactoryHandler;
+    private TimeUtils timeUtils;
+    private PlayerUtils playerUtils;
 
     @Override
     public void onEnable() {
@@ -60,6 +64,9 @@ public final class BoostersX extends JavaPlugin {
         commandHandler = new CommandHandler(this);
         commandHandler.load();
 
+        timeUtils = new TimeUtils(this);
+        playerUtils = new PlayerUtils(this);
+
 
     }
     public SQLManager getSQLManager() {
@@ -79,5 +86,11 @@ public final class BoostersX extends JavaPlugin {
     }
     public DataFactoryHandler getDataFactory() {
         return dataFactoryHandler;
+    }
+    public TimeUtils getTimeUtils() {
+        return timeUtils;
+    }
+    public PlayerUtils getPlayerUtils() {
+        return playerUtils;
     }
 }

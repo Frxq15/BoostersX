@@ -1,6 +1,6 @@
 boosts:
   booster1:
-    name: '&eEnchant Booster &7(x1.5)'
+    name: '&e&lEnchant Booster &7(x1.5)'
     multiplier:
       boost: 1.5
       enchants:
@@ -17,3 +17,17 @@ boosts:
       - 'ye u activated this booster gg'
     deactivated_message:
       - 'your booster ended gg'
+    tooltip:
+      - '&eEnchant Booster'
+      - '&b&l • &fTime left: &b%timeleft%'
+      - ''
+      - '&b&l • &fMultiplier: &bx1.5'
+      - '&b&l • &fDuration: &b%duration%'
+      - ''
+      - '&eEnchants Boosted:'
+      - '&b&l • &fJackhammer'
+      - '&b&l • &fToken Finder'
+      - ''
+      - '&eCurrencies Boosted:'
+      - '&b&l • &fTokens'
+      - '&b&l • &fGems'
