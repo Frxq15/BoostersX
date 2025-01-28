@@ -7,6 +7,7 @@ import java.util.*;
 
 import me.frxq15.boostersx.object.PlayerBoost;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,15 +35,18 @@ public class BoostsHelper {
                 String path = "boosts." + key;
                 if (config.isConfigurationSection(path)) {
                     String displayName = config.getString(path + ".name", "Default Booster");
-                    double multiplier = config.getDouble(path + ".multiplier.boost", 1.0);
+                    double multiplier = config.getDouble(path + ".multiplier.boost", 0.0);
                     List<String> enchants = config.getStringList(path + ".multiplier.enchants");
                     List<String> currencies = config.getStringList(path + ".multiplier.currencies");
                     List<String> lore = config.getStringList(path + ".lore");
                     List<String> activationMessage = config.getStringList(path + ".activation_message");
                     List<String> deactivatedMessage = config.getStringList(path + ".deactivated_message");
                     List<String> tooltip = config.getStringList(path + ".tooltip");
+                    Material material = Material.valueOf(config.getString(path + ".item", "DIRT"));
+                    boolean glow = config.getBoolean(path + ".glow", false);
 
-                    Booster booster = new Booster(key, multiplier, currencies, enchants, activationMessage, deactivatedMessage, displayName, lore, tooltip);
+                    Booster booster = new Booster(key, multiplier, currencies, enchants, activationMessage,
+                            deactivatedMessage, displayName, lore, tooltip, material, glow);
                     cacheBooster(booster);
                 }
             }

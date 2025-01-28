@@ -1,6 +1,6 @@
 boosts:
   booster1:
-    item: 'purple_dye'
+    item: 'PURPLE_DYE'
     glow: false
     name: '&e&lEnchant Booster &7(x1.5)'
     multiplier:
