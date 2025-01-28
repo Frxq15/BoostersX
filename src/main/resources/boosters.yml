@@ -1,5 +1,7 @@
 boosts:
   booster1:
+    item: 'purple_dye'
+    glow: false
     name: '&e&lEnchant Booster &7(x1.5)'
     multiplier:
       boost: 1.5
@@ -18,7 +20,7 @@ boosts:
     deactivated_message:
       - 'your booster ended gg'
     tooltip:
-      - '&eEnchant Booster'
+      - '&e&lEnchant Booster'
       - '&b&l • &fTime left: &b%timeleft%'
       - ''
       - '&b&l • &fMultiplier: &bx1.5'

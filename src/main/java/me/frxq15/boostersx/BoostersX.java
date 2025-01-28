@@ -29,12 +29,15 @@ public final class BoostersX extends JavaPlugin {
     public void onEnable() {
         instance = this;
         registry();
-        log("Plugin Enabled Successfully.");
+        log("Enabled " + getDescription().getName() + " v" + getDescription().getVersion());
     }
 
     @Override
     public void onDisable() {
-        log("Plugin Disabled Successfully.");
+        if(sqlManager.isConnected()) {
+            getDataFactory().getFactory().terminate();
+        }
+        log("Disabled " + getDescription().getName() + " v" + getDescription().getVersion());
     }
     public static BoostersX getInstance() {
         return instance;

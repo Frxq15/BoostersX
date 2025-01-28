@@ -26,21 +26,29 @@ public class giveCommand extends SubCommand {
     public @NotNull void onCommand(@NotNull CommandSender s, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if(args.length == 3) {
             OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
-            if(!GPlayer.players.containsKey(target.getUniqueId())) {
+            if (!GPlayer.players.containsKey(target.getUniqueId())) {
                 plugin.getLocaleManager().sendMessage(s, "PLAYER_NOT_FOUND");
                 return;
             }
             String targetBooster = args[1];
-            if(!plugin.getBoostsHelper().getBoosters().stream().map(Booster::getID).toList().contains(targetBooster)) {
+            if (!plugin.getBoostsHelper().getBoosters().stream().map(Booster::getID).toList().contains(targetBooster)) {
                 plugin.getLocaleManager().sendMessage(s, "BOOSTER_NOT_FOUND");
                 return;
             }
             //validate duration later
+            long duration = 0;
+            try {
+                duration = plugin.getTimeUtils().parseTime(args[2]);
+            } catch (IllegalArgumentException e) {
+                plugin.getLocaleManager().sendMessage(s, "INVALID_TIME_FORMAT");
+                return;
+            }
+
 
             Booster booster = plugin.getBoostsHelper().getBooster(targetBooster);
-            PlayerBoost boost = new PlayerBoost(booster, 120000); //default as 2 mins for testing
+            PlayerBoost boost = new PlayerBoost(booster, duration);
             plugin.getDataFactory().getFactory().getGPlayerData(target.getUniqueId()).addBooster(boost);
-            plugin.getLocaleManager().sendRawMessage(s, "&cAdded booster " + targetBooster + " to " + target.getName());
+            plugin.getLocaleManager().sendRawMessage(s, "&cAdded booster " + targetBooster + " to " + target.getName() + " for " + boost.getDurationFormatted());
             return;
         }
         plugin.getLocaleManager().sendRawMessage(s, getUsage());
@@ -55,7 +63,7 @@ public class giveCommand extends SubCommand {
             return plugin.getBoostsHelper().getBoosters().stream().map(Booster::getID).toList();
         }
         if (args.length == 3) {
-            return List.of("1m", "1h", "1d");
+            return List.of("1min", "1h", "1d");
         }
         return List.of();
     }
