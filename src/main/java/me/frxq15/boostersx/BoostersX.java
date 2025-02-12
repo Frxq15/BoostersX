@@ -6,6 +6,7 @@ import me.frxq15.boostersx.datafactory.sql.SQLManager;
 import me.frxq15.boostersx.helper.BoostsHelper;
 import me.frxq15.boostersx.manager.FileManager;
 import me.frxq15.boostersx.manager.LocaleManager;
+import me.frxq15.boostersx.menu.GUIListeners;
 import me.frxq15.boostersx.util.PlayerUtils;
 import me.frxq15.boostersx.util.Settings;
 import me.frxq15.boostersx.util.TimeUtils;
@@ -69,6 +70,8 @@ public final class BoostersX extends JavaPlugin {
 
         timeUtils = new TimeUtils(this);
         playerUtils = new PlayerUtils(this);
+
+        Bukkit.getPluginManager().registerEvents(new GUIListeners(), this);
 
 
     }

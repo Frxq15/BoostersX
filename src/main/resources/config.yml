@@ -2,11 +2,11 @@ storage-type: 'mysql' #you can use mysql or yml
 
 database:
   mysql:
-    host: ""
+    host: "na03-sql.pebblehost.com"
     port: 3306
-    database: ""
-    username: ""
-    password: ""
+    database: "customer_774404_root"
+    username: "customer_774404_root"
+    password: "ixjl2Jo2MVz.FipyNfQ@!zea"
 
 
 MESSAGES:
@@ -15,6 +15,7 @@ MESSAGES:
   PLAYER_NOT_FOUND: '&cPlayer not found.'
   BOOSTER_NOT_FOUND: '&cBooster not found.'
   NO_ACTIVE_BOOSTERS: '&cYou have no active boosters :('
+  INVALID_TIME_FORMAT: '&cInvalid time specified, Please use a format like: 2d1h30min15s, 1d, 1h, 1min, 1s.'
   BOOSTERS:
     ACTIVE_HEADER:
       - ''

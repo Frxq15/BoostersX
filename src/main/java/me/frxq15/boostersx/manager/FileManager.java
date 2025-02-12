@@ -12,6 +12,8 @@ public class FileManager {
     private final BoostersX plugin;
     public File BoostersFile;
     public FileConfiguration BoostersConfig;
+    public File MenusFile;
+    public FileConfiguration MenusConfig;
 
     public FileManager(BoostersX plugin) {
         this.plugin = plugin;
@@ -19,6 +21,7 @@ public class FileManager {
 
     public void generate() {
         createBoostersFile();
+        createMenusFile();
     }
     public void createBoostersFile() {
         BoostersFile = new File(plugin.getDataFolder(), "boosters.yml");
@@ -44,4 +47,29 @@ public class FileManager {
         }
     }
     public FileConfiguration getBoostersFile() { return BoostersConfig; }
+
+    public void createMenusFile() {
+        MenusFile = new File(plugin.getDataFolder(), "menus.yml");
+        if (!MenusFile.exists()) {
+            MenusFile.getParentFile().mkdirs();
+            plugin.log("File: menus.yml was created successfully");
+            plugin.saveResource("menus.yml", false);
+        }
+
+        MenusConfig = new YamlConfiguration();
+        try {
+            MenusConfig.load(MenusFile);
+        } catch (IOException | InvalidConfigurationException e) {
+            e.printStackTrace();
+        }
+    }
+    public void reloadMenusFile() { MenusConfig = YamlConfiguration.loadConfiguration(MenusFile); }
+    public void saveMenusFile() {
+        try {
+            MenusConfig.save(MenusFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public FileConfiguration getMenusFile() { return MenusConfig; }
 }
