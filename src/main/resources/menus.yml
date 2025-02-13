@@ -1,0 +1,33 @@
+MAIN_MENU:
+  title: 'Your Boosters'
+  rows: 6
+  items:
+    player-head: #keep the section name as player-head to display the player skull
+      slot: 0
+      material: SKULL_ITEM
+      name: '&eViewing %player%'
+      lore: []
+      glow: false
+    personal-boosters:
+      slot: 3
+      material: LEATHER_CHESTPLATE
+      colour: '#B02E26'
+      name: '&ePersonal Boosters'
+      lore:
+        - ''
+        - '&fWithin this category you will find all of'
+        - '&fyour &epersonal boosters &fready to be activated.'
+        - ''
+        - '&aYou are currently viewing this category.'
+      glow: false
+    global-boosters:
+      slot: 3
+      material: FEATHER
+      name: '&aGlobal Boosters'
+      lore:
+        - ''
+        - '&fWithin this category you will find all of'
+        - '&fyour &aglobal boosters &fready to be activated.'
+        - ''
+        - '&eClick to view this category.'
+      glow: false

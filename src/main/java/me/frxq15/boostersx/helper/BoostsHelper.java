@@ -66,12 +66,5 @@ public class BoostsHelper {
     public Booster getBooster(String id) {
         return boosters.stream().filter(booster -> booster.getID().equals(id)).findFirst().orElse(null);
     }
-
-    private void notifyPlayerBoostExpired(UUID playerUUID, PlayerBoost boost) {
-        Player player = Bukkit.getPlayer(playerUUID);
-        if (player != null && player.isOnline()) {
-            player.sendMessage("Your boost " + boost.getBooster().getID() + " has expired.");
-        }
-    }
 }
 

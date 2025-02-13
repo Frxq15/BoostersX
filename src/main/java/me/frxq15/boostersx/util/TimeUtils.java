@@ -60,7 +60,7 @@ public class TimeUtils {
             if (result.length() > 0) result.append(" ");
             result.append(minutes).append(" minute").append(minutes == 1 ? "" : "s");
         }
-        if (seconds > 0 || result.length() == 0) { // Always include at least "0 seconds"
+        if (seconds > 0 || result.length() == 0) {
             if (result.length() > 0) result.append(" ");
             result.append(seconds).append(" second").append(seconds == 1 ? "" : "s");
         }

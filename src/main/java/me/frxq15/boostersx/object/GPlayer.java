@@ -90,7 +90,6 @@ public class GPlayer {
         if (boosterExpiryCheck != -1) {
             return;
         }
-
         boosterExpiryCheck = Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, () -> {
             Iterator<PlayerBoost> iterator = active_boosters.iterator();
             while (iterator.hasNext()) {
