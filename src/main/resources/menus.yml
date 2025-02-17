@@ -8,6 +8,7 @@ MAIN_MENU:
       name: '&eViewing %player%'
       lore: []
       glow: false
+      amount: 1
     personal-boosters:
       slot: 3
       material: LEATHER_CHESTPLATE
@@ -20,6 +21,7 @@ MAIN_MENU:
         - ''
         - '&aYou are currently viewing this category.'
       glow: false
+      amount: 1
     global-boosters:
       slot: 3
       material: FEATHER
@@ -31,3 +33,4 @@ MAIN_MENU:
         - ''
         - '&eClick to view this category.'
       glow: false
+      amount: 1
