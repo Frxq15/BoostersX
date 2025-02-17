@@ -1,10 +1,10 @@
-MAIN_MENU:
+PERSONAL:
   title: 'Your Boosters'
   rows: 6
   items:
-    player-head: #keep the section name as player-head to display the player skull
+    player-head: #keep this as the PLAYER_HEAD item to display the player skull
       slot: 0
-      material: SKULL_ITEM
+      material: PLAYER_HEAD
       name: '&eViewing %player%'
       lore: []
       glow: false
@@ -12,7 +12,7 @@ MAIN_MENU:
     personal-boosters:
       slot: 3
       material: LEATHER_CHESTPLATE
-      colour: '#B02E26'
+      rgb: '218,16,16'
       name: '&ePersonal Boosters'
       lore:
         - ''
@@ -23,7 +23,7 @@ MAIN_MENU:
       glow: false
       amount: 1
     global-boosters:
-      slot: 3
+      slot: 5
       material: FEATHER
       name: '&aGlobal Boosters'
       lore:

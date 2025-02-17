@@ -103,4 +103,7 @@ public class GUITemplate {
         item.setItemMeta(meta);
         return item;
     }
+    public int getSlot(String menu, String item) {
+        return plugin.getFileManager().getMenusFile().getInt(menu + ".items." + item + ".slot");
+    }
 }

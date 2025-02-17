@@ -20,6 +20,7 @@ public class GPlayer {
     public GPlayer(BoostersX plugin, UUID uuid, String name, List<PlayerBoost> boosters, List<PlayerBoost> active_boosters) {
         this.plugin = plugin;
         this.uuid = uuid;
+        this.name = name;
         setBoosters(boosters);
         setActiveBoosters(active_boosters);
         players.put(uuid, this);
@@ -110,5 +111,8 @@ public class GPlayer {
             Bukkit.getScheduler().cancelTask(boosterExpiryCheck);
             boosterExpiryCheck = -1;
         }
+    }
+    public boolean isOnline() {
+        return getPlayer() != null && getPlayer().isOnline();
     }
 }

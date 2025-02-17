@@ -7,6 +7,7 @@ import me.frxq15.boostersx.helper.BoostsHelper;
 import me.frxq15.boostersx.manager.FileManager;
 import me.frxq15.boostersx.manager.LocaleManager;
 import me.frxq15.boostersx.menu.GUIListeners;
+import me.frxq15.boostersx.menu.ItemUtils;
 import me.frxq15.boostersx.util.PlayerUtils;
 import me.frxq15.boostersx.util.Settings;
 import me.frxq15.boostersx.util.TimeUtils;
@@ -25,6 +26,7 @@ public final class BoostersX extends JavaPlugin {
     private DataFactoryHandler dataFactoryHandler;
     private TimeUtils timeUtils;
     private PlayerUtils playerUtils;
+    private ItemUtils itemUtils;
 
     @Override
     public void onEnable() {
@@ -68,6 +70,7 @@ public final class BoostersX extends JavaPlugin {
         commandHandler = new CommandHandler(this);
         commandHandler.load();
 
+        itemUtils = new ItemUtils(this);
         timeUtils = new TimeUtils(this);
         playerUtils = new PlayerUtils(this);
 
@@ -80,6 +83,9 @@ public final class BoostersX extends JavaPlugin {
     }
     public FileManager getFileManager() {
         return fileManager;
+    }
+    public ItemUtils getItemUtils() {
+        return itemUtils;
     }
     public BoostsHelper getBoostsHelper() {
         return boostsHelper;

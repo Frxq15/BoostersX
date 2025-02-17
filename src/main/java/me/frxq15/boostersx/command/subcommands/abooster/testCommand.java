@@ -2,6 +2,7 @@ package me.frxq15.boostersx.command.subcommands.abooster;
 
 import me.frxq15.boostersx.BoostersX;
 import me.frxq15.boostersx.command.SubCommand;
+import me.frxq15.boostersx.menu.menus.PersonalBoosters;
 import me.frxq15.boostersx.object.Booster;
 import me.frxq15.boostersx.object.GPlayer;
 import me.frxq15.boostersx.object.PlayerBoost;
@@ -48,6 +49,7 @@ public class testCommand extends SubCommand {
                     Bukkit.broadcastMessage(boost.getBooster().toString());
                     Bukkit.broadcastMessage("");
                 });
+                new PersonalBoosters(plugin, player.getUniqueId()).open(player);
                 return;
             }
             String booster = args[0];
