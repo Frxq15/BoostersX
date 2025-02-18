@@ -36,6 +36,11 @@ public class GUITemplate {
         inventoriesByUUID.put(getUUID(), this);
     }
 
+    public void clearInventory() {
+        inventory.clear();
+        actions.clear();
+    }
+
     public interface GUIAction {
         void click(Player player);
     }
@@ -105,5 +110,8 @@ public class GUITemplate {
     }
     public int getSlot(String menu, String item) {
         return plugin.getFileManager().getMenusFile().getInt(menu + ".items." + item + ".slot");
+    }
+    public int getPageSlot(String menu, String item) {
+        return plugin.getFileManager().getMenusFile().getInt(menu + ".page-items." + item + ".slot");
     }
 }

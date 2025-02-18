@@ -1,8 +1,17 @@
 package me.frxq15.boostersx.object;
 
 import me.frxq15.boostersx.BoostersX;
+import org.bukkit.NamespacedKey;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlayerBoost {
     private final Booster booster;
@@ -19,6 +28,30 @@ public class PlayerBoost {
 
     public Booster getBooster() {
         return booster;
+    }
+
+    public ItemStack getBoosterItem() {
+        ItemStack item = new ItemStack(booster.getMaterial(), 1);
+        ItemMeta meta = item.getItemMeta();
+        if (meta == null) return item;
+
+        meta.setDisplayName(BoostersX.getInstance().colourize(booster.getDisplayName()));
+
+        List<String> formattedLore = new ArrayList<>();
+        for (String line : booster.getLore()) {
+            line = line.replace("%multiplier%", String.valueOf(booster.getMultiplier()));
+            line = line.replace("%duration%", getDurationFormatted());
+            formattedLore.add(BoostersX.getInstance().colourize(line));
+        }
+        meta.setLore(formattedLore);
+
+        if (booster.hasGlow()) {
+            meta.addEnchant(Enchantment.DURABILITY, 1, true);
+            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        }
+
+        item.setItemMeta(meta);
+        return item;
     }
 
     public long getDuration() {

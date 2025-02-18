@@ -85,5 +85,24 @@ public class ItemUtils {
 
         return itemStack;
     }
-
+    public ItemStack createPaneItem(String menu) {
+        Material material = Material.valueOf(config.getString(menu + ".panes.material"));
+        return new ItemStack(material, 1);
+    }
+    public ItemStack createPageItem(String menu, String item) {
+        Material material = Material.valueOf(config.getString(menu + ".page-items."+item+".material"));
+        int amount = config.getInt(menu + ".page-items."+item+".amount");
+        String name = config.getString(menu + ".page-items."+item+".name");
+        List<String> lore = config.getStringList(menu + ".page-items."+item+".lore");
+        ItemStack itemStack = new ItemStack(material, amount);
+        ItemMeta meta = itemStack.getItemMeta();
+        meta.setDisplayName(plugin.colourize(name));
+        List<String> loreList = new ArrayList<>();
+        for (String line : lore) {
+            loreList.add(plugin.colourize(line));
+        }
+        meta.setLore(loreList);
+        itemStack.setItemMeta(meta);
+        return itemStack;
+    }
 }

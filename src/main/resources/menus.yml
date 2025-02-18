@@ -1,6 +1,55 @@
 PERSONAL:
-  title: 'Your Boosters'
+  title: 'Personal Boosters'
   rows: 6
+  booster-slots:
+    - 19
+    - 20
+    - 21
+    - 22
+    - 23
+    - 24
+    - 25
+    - 28
+    - 29
+    - 30
+    - 31
+    - 32
+    - 33
+    - 34
+    - 37
+    - 38
+    - 39
+    - 40
+    - 41
+    - 42
+    - 43
+  panes:
+    material: BLACK_STAINED_GLASS_PANE
+    slots:
+      - 9
+      - 10
+      - 11
+      - 12
+      - 13
+      - 14
+      - 15
+      - 16
+      - 17
+  page-items: #only displayed if another page is available
+    next-page:
+      slot: 50
+      material: ARROW
+      name: '&cNext Page'
+      lore: []
+      glow: false
+      amount: 1
+    previous-page:
+      slot: 48
+      material: ARROW
+      name: '&cPrevious Page'
+      lore: [ ]
+      glow: false
+      amount: 1
   items:
     player-head: #keep this as the PLAYER_HEAD item to display the player skull
       slot: 0
@@ -25,11 +74,23 @@ PERSONAL:
     global-boosters:
       slot: 5
       material: FEATHER
-      name: '&aGlobal Boosters'
+      name: '&dGlobal Boosters'
       lore:
         - ''
         - '&fWithin this category you will find all of'
-        - '&fyour &aglobal boosters &fready to be activated.'
+        - '&fyour &dglobal boosters &fready to be activated.'
+        - ''
+        - '&eClick to view this category.'
+      glow: false
+      amount: 1
+    active-boosters:
+      slot: 8
+      material: LIME_DYE
+      name: '&aActive Boosters'
+      lore:
+        - ''
+        - '&fWithin this category you will find all'
+        - '&fof your currently &aactive &fboosters.'
         - ''
         - '&eClick to view this category.'
       glow: false

@@ -84,6 +84,7 @@ public class Booster {
 
         List<String> formattedLore = new ArrayList<>();
         for (String line : lore) {
+            line = line.replace("%multiplier%", String.valueOf(multiplier));
             formattedLore.add(BoostersX.getInstance().colourize(line));
         }
         meta.setLore(formattedLore);
