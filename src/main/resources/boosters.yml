@@ -43,3 +43,45 @@ boosts:
       - '&eCurrencies Boosted:'
       - '&b&l • &fTokens'
       - '&b&l • &fGems'
+  divine1:
+    item: 'EXPERIENCE_BOTTLE'
+    glow: false
+    name: '&eDivine Booster'
+    multiplier:
+      boost: 1.5
+      enchants:
+        - 'jackhammer'
+        - 'tokenfinder'
+      currencies:
+        - 'tokens'
+        - 'gems'
+    lore:
+      - ''
+      - '&b&l • &fMultiplier: &bx1.6'
+      - '&b&l • &fDuration: &b%duration%'
+      - ''
+      - '&eEnchants Boosted:'
+      - '&b&l • &fCluster Bomb'
+      - '&b&l • &fArcher'
+      - ''
+      - '&eCurrencies Boosted:'
+      - '&b&l • &fTokens'
+      - ''
+      - '&aClick to activate this booster'
+    activation_message:
+      - 'ye u activated this booster gg'
+    deactivated_message:
+      - 'your booster ended gg'
+    tooltip:
+      - '&eEnchant Booster'
+      - '&b&l • &fTime left: &b%timeleft%'
+      - ''
+      - '&b&l • &fMultiplier: &bx1.6'
+      - '&b&l • &fDuration: &b%duration%'
+      - ''
+      - '&eEnchants Boosted:'
+      - '&b&l • &fCluster Bomb'
+      - '&b&l • &fArcher'
+      - ''
+      - '&eCurrencies Boosted:'
+      - '&b&l • &fTokens'

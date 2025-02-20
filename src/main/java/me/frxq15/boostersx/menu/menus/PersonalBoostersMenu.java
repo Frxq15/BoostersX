@@ -5,6 +5,7 @@ import me.frxq15.boostersx.menu.GUITemplate;
 import me.frxq15.boostersx.menu.ItemUtils;
 import me.frxq15.boostersx.object.GPlayer;
 import me.frxq15.boostersx.object.PlayerBoost;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -12,21 +13,23 @@ import org.bukkit.inventory.ItemStack;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class PersonalBoosters extends GUITemplate {
+public class PersonalBoostersMenu extends GUITemplate {
     private BoostersX plugin;
     private ItemUtils itemUtils;
     private UUID uuid;
     private GPlayer gPlayer;
+    private Player player;
     private FileConfiguration config;
     private List<Integer> boosterSlots = new ArrayList<>();
     private List<PlayerBoost> boosters;
     private int currentPage = 0;
 
-    public PersonalBoosters(BoostersX plugin, UUID uuid) {
+    public PersonalBoostersMenu(BoostersX plugin, Player player, UUID uuid) {
         super(plugin, plugin.getFileManager().getMenusFile().getInt("PERSONAL.rows"), plugin.getFileManager().getMenusFile().getString("PERSONAL.title"));
         this.plugin = plugin;
         this.itemUtils = plugin.getItemUtils();
         this.uuid = uuid;
+        this.player = player;
         this.gPlayer = plugin.getDataFactory().getFactory().getGPlayerData(uuid);
         this.config = plugin.getFileManager().getMenusFile();
         this.boosters = new ArrayList<>(gPlayer.getBoosters());
@@ -65,7 +68,11 @@ public class PersonalBoosters extends GUITemplate {
         for (int i = startIndex, slotIndex = 0; i < endIndex; i++, slotIndex++) {
             PlayerBoost boost = boosters.get(i);
             ItemStack boostItem = boost.getBoosterItem();
-            setItem(boosterSlots.get(slotIndex), boostItem);
+            setItem(boosterSlots.get(slotIndex), boostItem, action -> {
+                if(!gPlayer.isOnline()) return;
+                player.getOpenInventory().close();
+                new ActivationMenu(plugin, player, uuid, boost).open(player);
+            });
         }
 
         if (currentPage > 0) {

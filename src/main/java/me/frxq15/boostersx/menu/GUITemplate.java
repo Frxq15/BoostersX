@@ -89,25 +89,6 @@ public class GUITemplate {
         setItem(slot, stack, null);
     }
 
-    protected ItemStack createGuiItem(final Material material, final String name, final String... lore) {
-        final ItemStack item = new ItemStack(material, 1);
-        final ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(name);
-        meta.setLore(Arrays.asList(lore));
-        item.setItemMeta(meta);
-        return item;
-    }
-
-    protected ItemStack createGlowingGuiItem(final Material material, final String name, final String... lore) {
-        final ItemStack item = new ItemStack(material, 1);
-        final ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(name);
-        meta.setLore(Arrays.asList(lore));
-        meta.addEnchant(Enchantment.DURABILITY, 1, false);
-        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        item.setItemMeta(meta);
-        return item;
-    }
     public int getSlot(String menu, String item) {
         return plugin.getFileManager().getMenusFile().getInt(menu + ".items." + item + ".slot");
     }

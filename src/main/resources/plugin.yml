@@ -11,3 +11,6 @@ commands:
   booster:
     usage: '/booster'
     description: 'Booster command'
+  boosters:
+    usage: '/boosters'
+    description: 'Boosters command'

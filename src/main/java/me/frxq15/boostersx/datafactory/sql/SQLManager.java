@@ -28,7 +28,8 @@ public class SQLManager {
             if (connection != null && !connection.isClosed()) return true;
 
             Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database, username, password);
+            String url = "jdbc:mysql://" + host + ":" + port + "/" + database + "?autoReconnect=true&useSSL=false";
+            connection = DriverManager.getConnection(url, username, password);
             return true;
         } catch (SQLException | ClassNotFoundException e) {
             connection = null;

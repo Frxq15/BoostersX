@@ -95,3 +95,42 @@ PERSONAL:
         - '&eClick to view this category.'
       glow: false
       amount: 1
+ACTIVATION:
+  title: 'Activating Booster..'
+  rows: 1
+  booster-slot: 4
+  items:
+    confirm:
+      slots:
+        - 0
+        - 1
+        - 2
+        - 3
+      material: LIME_STAINED_GLASS_PANE
+      name: '&aConfirm Activation'
+      lore:
+        - '&fThis will confirm the booster activation'
+        - ''
+        - '&c&lWarning: &fOnce a booster is activated, this'
+        - '&faction is irreversible and cannot be undone.'
+        - ''
+        - '&e&lClick &fto confirm this action'
+      glow: false
+      amount: 1
+    cancel:
+      slots:
+        - 5
+        - 6
+        - 7
+        - 8
+      material: RED_STAINED_GLASS_PANE
+      name: '&cCancel Activation'
+      lore:
+        - '&fThis will cancel the booster activation'
+        - ''
+        - '&c&lWarning: &fOnce a booster is activated, this'
+        - '&faction is irreversible and cannot be undone.'
+        - ''
+        - '&e&lClick &fto cancel this action'
+      glow: false
+      amount: 1

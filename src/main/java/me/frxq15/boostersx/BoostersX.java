@@ -1,6 +1,7 @@
 package me.frxq15.boostersx;
 
 import me.frxq15.boostersx.command.CommandHandler;
+import me.frxq15.boostersx.command.commands.boostersCommand;
 import me.frxq15.boostersx.datafactory.DataFactoryHandler;
 import me.frxq15.boostersx.datafactory.sql.SQLManager;
 import me.frxq15.boostersx.helper.BoostsHelper;
